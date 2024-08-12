@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: data-model
+  name: data-model-velocity
+spec:
+  volumes:
+    - name: ch-data
+      hostPath:
+        path: /PigeonRacing/src/data_preprocess/data
+        type: Directory
+  containers:
+  - args:
+    - python
+    - src/data_train/models/velocity.py
+    image: 172.20.208.1:5000/pigeon-data-model:latest  # avoid using latest
+    name: data-model-velocity
+    env:
+      - name: PYTHONUNBUFFERED
+        value: "1"
+    # imagePullPolicy: IfNotPresent  # use once latest is removed
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: 2
+    volumeMounts:
+      - name: ch-data
+        mountPath: src/data_preprocess/data
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
