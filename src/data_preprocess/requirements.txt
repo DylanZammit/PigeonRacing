@@ -1,0 +1,7 @@
+pandas>=2.2.1
+pyyaml>=6.0.1
+numpy>=1.26.4
+python-dotenv>=1.0.1
+meteostat>=1.6.7
+requests>=2.32.2
+aiohttp>=3.9.5
