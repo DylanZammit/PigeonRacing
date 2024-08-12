@@ -6,9 +6,9 @@ import pandas as pd
 import itertools
 import os
 from src import DATA_PATH
-from src.data_load.loaders.malta_pigeon_federation import MaltaPigeonFederationAPI
-from src.data_load.loaders.meteostat import get_geo_weather, get_all_locations
-from src.data_load.utils import camel_to_snake, deg_to_compass, wind_speed_to_beaufort
+from src.data_preprocess.loaders.malta_pigeon_federation import MaltaPigeonFederationAPI
+from src.data_preprocess.loaders.meteostat import get_geo_weather, get_all_locations
+from src.data_preprocess.utils import camel_to_snake, deg_to_compass, wind_speed_to_beaufort
 
 
 async def get_raw_pigeon_list_club(club_id: int, mpr: MaltaPigeonFederationAPI):
