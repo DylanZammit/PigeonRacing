@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: data-load
+  name: data-load
+spec:
+  volumes:
+    - name: ch-data
+      hostPath:
+        path: /PigeonRacing/src/data_preprocess/data
+        type: Directory
+  containers:
+  - args:
+    - python
+    - src/data_preprocess/data_load.py
+    image: 172.20.208.1:5000/pigeon-data-load:latest  # avoid using latest
+    name: data-load
+    env:
+      - name: PYTHONUNBUFFERED
+        value: "1"
+    # imagePullPolicy: IfNotPresent  # use once latest is removed
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: 2
+    volumeMounts:
+      - name: ch-data
+        mountPath: src/data_preprocess/data
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
