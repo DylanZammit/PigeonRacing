@@ -5,8 +5,8 @@ import lightgbm as lgb
 from sklearn.metrics import RocCurveDisplay, classification_report, confusion_matrix
 import os
 
-from data_train.models.generic import Model
-from data_train.utils import load_data
+from src.data_train.models.generic import Model
+from src.data_train.utils import load_data
 from src import MODEL_PATH
 
 pd.set_option('display.max_columns', None)
