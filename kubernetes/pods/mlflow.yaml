@@ -3,35 +3,32 @@ kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    run: data-model
-  name: data-model-arrival
+    app: mlflow
+  name: mlflow
 spec:
   volumes:
-    - name: ch-data
-      hostPath:
-        path: /PigeonRacing/src/data_preprocess/data
-        type: Directory
     - name: models
       hostPath:
         path: /PigeonRacing/src/data_train/pre-trained
         type: Directory
   containers:
   - args:
-    - python
-    - src/data_train/models/arrival.py
-    image: 172.20.208.1:5000/pigeon-data-model:latest  # avoid using latest
-    name: data-model-arrival
+    image: atcommons/mlflow-server:1.20.0
+    name: mlflow
+    ports:
+      - containerPort: 5000
+        name: http
     env:
       - name: PYTHONUNBUFFERED
         value: "1"
+      - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
+        value: python
     # imagePullPolicy: IfNotPresent  # use once latest is removed
     resources:
       requests:
         memory: "1Gi"
         cpu: 2
     volumeMounts:
-      - name: ch-data
-        mountPath: src/data_preprocess/data
       - name: models
         mountPath: src/data_train/pre-trained
   dnsPolicy: ClusterFirst

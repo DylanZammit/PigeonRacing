@@ -1,5 +1,6 @@
 from sklearn.preprocessing import LabelEncoder
 
+import mlflow
 import lightgbm as lgb
 import pandas as pd
 import os
@@ -91,10 +92,12 @@ class Model:
     def fit(self):
         lgbm = lgb.LGBMRegressor if self.param['objective'] == 'regression' else lgb.LGBMClassifier
         model = lgbm(**self.param)
-        model.fit(
-            self.df_x_train, self.y_train,
-            eval_set=[(self.df_x_test, self.y_test), (self.df_x_train, self.y_train)]
-        )
+        mlflow.lightgbm.autolog()
+        with mlflow.start_run():
+            model.fit(
+                self.df_x_train, self.y_train,
+                eval_set=[(self.df_x_test, self.y_test), (self.df_x_train, self.y_train)]
+            )
         self._model = model
         return model
 

@@ -2,6 +2,10 @@
 minikube delete --all
 minikube start --insecure-registry=<HOST_IP>:5000
 
+# In separate terminals and must be left open if on windows
+minikube tunnel
+minikube mount path/to/code/of/PigeonRacing:/PigeonRacing
+
 # create local docker registry
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
@@ -14,8 +18,13 @@ docker build -t localhost:5000/pigeon-data-model:latest -f docker/data_model/Doc
 docker push localhost:5000/pigeon-data-model:latest
 
 # create kubernetes pods + services + namespaces
-kubectl create -f namespaces/pigeon-racing-prd.yaml
-kubectl create -f services/clickhouse.yaml
-kubectl create -f pods/clickhouse.yaml
-kubectl create -f pods/data-load.yaml
-kubectl create -f pods/data-model-velocity.yaml
+kubectl create -f kubernetes/namespaces/pigeon-racing-prd.yaml
+
+kubectl create -f kubernetes/services/clickhouse.yaml
+kubectl create -f kubernetes/pods/clickhouse.yaml
+
+kubectl create -f kubernetes/pods/data-load.yaml
+kubectl create -f kubernetes/pods/data-model-velocity.yaml
+
+kubectl create -f kubernetes/services/mlflow.yaml
+kubectl create -f kubernetes/pods/mlflow.yaml

@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 
 import lightgbm as lgb
-
 import numpy as np
 import os
 
@@ -19,6 +18,7 @@ pd.set_option('display.max_rows', 200)
 class VelocityModel(Model):
 
     def plot(self):
+
         model = self.model
         lgb.plot_metric(model.evals_result_)
         plt.figure()

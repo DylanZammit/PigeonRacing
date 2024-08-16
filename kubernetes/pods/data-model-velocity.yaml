@@ -11,6 +11,10 @@ spec:
       hostPath:
         path: /PigeonRacing/src/data_preprocess/data
         type: Directory
+    - name: models
+      hostPath:
+        path: /PigeonRacing/src/data_train/pre-trained
+        type: Directory
   containers:
   - args:
     - python
@@ -28,6 +32,8 @@ spec:
     volumeMounts:
       - name: ch-data
         mountPath: src/data_preprocess/data
+      - name: models
+        mountPath: src/data_train/pre-trained
   dnsPolicy: ClusterFirst
   restartPolicy: Never
 status: {}
