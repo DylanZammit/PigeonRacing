@@ -1,21 +1,21 @@
 # start afresh or delete minikube cluster for the following line to take affect
 minikube delete --all
-minikube start --insecure-registry=<HOST_IP>:5000
+minikube start # --insecure-registry=<HOST_IP>:5000
 
 # In separate terminals and must be left open if on windows
 minikube tunnel
 minikube mount path/to/code/of/PigeonRacing:/PigeonRacing
 
 # create local docker registry
-docker run -d -p 5000:5000 --restart=always --name registry registry:2
+#docker run -d -p 5000:12345 --restart=always --name registry registry:2
 
 # build and push data-load image to local registry
-docker build -t localhost:5000/pigeon-data-load:latest -f docker/data_load/Dockerfile .
-docker push localhost:5000/pigeon-data-load:latest
+docker build -t dylanzammit/pigeon-data-load:latest -f docker/data_load/Dockerfile .
+docker push dylanzammit/pigeon-data-load:latest
 
 # build and push model image to docker hub
-docker build -t localhost:5000/pigeon-data-model:latest -f docker/data_model/Dockerfile .
-docker push localhost:5000/pigeon-data-model:latest
+docker build -t dylanzammit/pigeon-data-model:latest -f docker/data_model/Dockerfile .
+docker push dylanzammit/pigeon-data-model:latest
 
 # create kubernetes pods + services + namespaces
 kubectl create -f kubernetes/namespaces/pigeon-racing-prd.yaml
