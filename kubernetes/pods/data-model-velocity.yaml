@@ -19,11 +19,11 @@ spec:
   - args:
     - python
     - src/data_train/models/velocity.py
-    image: 172.20.208.1:5000/pigeon-data-model:latest  # avoid using latest
+    image: dylanzammit/pigeon-data-model:latest  # avoid using latest
     name: data-model-velocity
     env:
-      - name: PYTHONUNBUFFERED
-        value: "1"
+      - name: MLFLOW_EXPERIMENT_NAME
+        value: velocity
     # imagePullPolicy: IfNotPresent  # use once latest is removed
     resources:
       requests:

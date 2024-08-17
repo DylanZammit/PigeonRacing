@@ -47,7 +47,6 @@ class VelocityModel(Model):
 
         feature_importances = {f: imp for imp, f in zip(model.feature_importances_, model.feature_name_)}
 
-        # TODO: use log instead of print
         print(dict(sorted(feature_importances.items(), key=lambda item: item[1], reverse=True)))
 
     def clean(self) -> pd.DataFrame:
@@ -63,8 +62,8 @@ def main() -> None:
 
     vm = VelocityModel(df_race_results_final, 'velocity_params.yaml')
     vm.fit()
-    vm.plot()
-    vm.save_pickle(os.path.join(MODEL_PATH, 'velocity.pkl'))
+    if os.environ.get('PLOT', 'False') == 'True':
+        vm.plot()
 
 
 if __name__ == '__main__':

@@ -19,15 +19,15 @@ spec:
   - args:
     - python
     - src/data_train/models/arrival.py
-    image: 172.20.208.1:5000/pigeon-data-model:latest  # avoid using latest
+    image: dylanzammit/pigeon-data-model:latest  # avoid using latest
     name: data-model-arrival
     env:
-      - name: PYTHONUNBUFFERED
-        value: "1"
+      - name: MLFLOW_EXPERIMENT_NAME
+        value: arrival
     # imagePullPolicy: IfNotPresent  # use once latest is removed
     resources:
       requests:
-        memory: "1Gi"
+        memory: "4Gi"
         cpu: 2
     volumeMounts:
       - name: ch-data

@@ -36,6 +36,7 @@ class Model:
         with open(os.path.join(PARAMS_PATH, config), 'r') as f:
             config = yaml.safe_load(f)
 
+        print('Setting up model...')
         self.pred_col = config['pred_col']
         self.param = config['model_params']
         self.train_start = pd.Timestamp(config['train_start'])
@@ -63,6 +64,7 @@ class Model:
         print('Run fit() method first')
 
     def train_test_split(self):
+        print('Splitting data into train and test...')
         important_features = self.categorical + self.covariates  # comment if we want specific features
 
         important_categorical = list(set(self.categorical) & set(important_features))
@@ -90,6 +92,7 @@ class Model:
         return df_x_train, df_x_test, y_train, y_test
 
     def fit(self):
+        print('Training model...')
         lgbm = lgb.LGBMRegressor if self.param['objective'] == 'regression' else lgb.LGBMClassifier
         model = lgbm(**self.param)
         mlflow.lightgbm.autolog()

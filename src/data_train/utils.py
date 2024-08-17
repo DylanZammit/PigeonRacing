@@ -18,10 +18,12 @@ def get_latest_file(prefix) -> str:
                 f_max = f
         except (IndexError, ValueError):
             continue
-    print(f'Loading {f_max}')
     return os.path.join(DATA_PATH, f_max)
 
 
 def load_data(model_name: str) -> pd.DataFrame:
-    df = pd.read_csv(get_latest_file(model_name))
+    f_max = get_latest_file(model_name)
+    print(f'Loading {f_max}...')
+    df = pd.read_csv(f_max)
+    print('...done.')
     return df

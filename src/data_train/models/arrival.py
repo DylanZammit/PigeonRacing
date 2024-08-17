@@ -7,7 +7,6 @@ import os
 
 from src.data_train.models.generic import Model
 from src.data_train.utils import load_data
-from src import MODEL_PATH
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 200)
@@ -60,11 +59,8 @@ class ArrivalModel(Model):
         plt.title('Density of test/train predictions')
         plt.legend()
 
-        feature_importances = {f: imp for imp, f in
-                               zip(model.feature_importances_, model.feature_name_)}
-        dict(sorted(feature_importances.items(), key=lambda item: item[1], reverse=True))
+        feature_importances = {f: imp for imp, f in zip(model.feature_importances_, model.feature_name_)}
 
-        # TODO: use log instead of print
         print(dict(sorted(feature_importances.items(), key=lambda item: item[1], reverse=True)))
         plt.show()
 
@@ -72,10 +68,12 @@ class ArrivalModel(Model):
 def main() -> None:
 
     df_race_results_final = load_data('df_race_results_final')
+    # df_race_results_final = df_race_results_final.iloc[:1000]
     am = ArrivalModel(df_race_results_final, 'arrival_params.yaml')
     am.fit()
-    am.plot()
-    am.save_pickle(os.path.join(MODEL_PATH, 'arrival.pkl'))
+
+    if os.environ.get('PLOT', 'False') == 'True':
+        am.plot()
 
 
 if __name__ == '__main__':
